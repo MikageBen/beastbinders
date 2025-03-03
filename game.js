@@ -138,7 +138,7 @@ const config = {
   }
   
   function saveRoster(beast) {
-    fetch('https://beastbinders-7555f963f9c1.com/save-roster', {
+    fetch('https://beastbinders-7555f963f9c1.herokuapp.com/save-roster', {
       method: 'POST',
       body: JSON.stringify({ playerId: 'player123', beast }),
       headers: { 'Content-Type': 'application/json' }
