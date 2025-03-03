@@ -13,22 +13,31 @@ const db = new sqlite3.Database(':memory:');
 db.run('CREATE TABLE roster (id TEXT, beast TEXT)');
 
 async function generateBeast(biome) {
-  const basePrompt = `${biome}-dwelling mythical beast`;
-  const isShiny = Math.random() < 0.01;
-  const beast = {
-    name: `Beast_${Math.random().toString(36).slice(2, 7)}`,
-    visual: isShiny ? `shiny-${biome}-beast.png` : `${biome}-beast.png`,
-    personality: ['Loyal', 'Mischievous', 'Stoic', 'Cunning'][Math.floor(Math.random() * 4)],
-    biome,
-    rarity: isShiny ? 'shiny' : (Math.random() < 0.1 ? 'rare' : 'common')
-  };
-  return beast;
-}
-
-app.get('/generate-beast', async (req, res) => {
-  const beast = await generateBeast(req.query.biome);
-  res.json(beast);
-});
+    const adjectives = ['Fierce', 'Mystic', 'Shadow', 'Glimmer', 'Ancient'];
+    const nouns = ['Wyrm', 'Griffin', 'Serpent', 'Stag', 'Raven'];
+    const name = `${adjectives[Math.floor(Math.random() * adjectives.length)]} ${nouns[Math.floor(Math.random() * nouns.length)]}`;
+    const isShiny = Math.random() < 0.01;
+    const visuals = {
+      forest: 'https://opengameart.org/sites/default/files/monster_forest.png',
+      mountain: 'https://opengameart.org/sites/default/files/monster_mountain.png',
+      swamp: 'https://opengameart.org/sites/default/files/monster_swamp.png',
+      'shiny-forest': 'https://opengameart.org/sites/default/files/monster_forest_shiny.png',
+      'shiny-mountain': 'https://opengameart.org/sites/default/files/monster_mountain_shiny.png',
+      'shiny-swamp': 'https://opengameart.org/sites/default/files/monster_swamp_shiny.png'
+    };
+    const beast = {
+      name: `${name}_${Math.random().toString(36).slice(2, 7)}`, // Unique suffix
+      visual: visuals[isShiny ? `shiny-${biome}` : biome] || visuals[biome],
+      personality: ['Loyal', 'Mischievous', 'Stoic', 'Cunning'][Math.floor(Math.random() * 4)],
+      biome,
+      rarity: isShiny ? 'shiny' : (Math.random() < 0.1 ? 'rare' : 'common'),
+      traits: {
+        color: ['Red', 'Blue', 'Green', 'Black'][Math.floor(Math.random() * 4)],
+        size: ['Small', 'Medium', 'Large'][Math.floor(Math.random() * 3)]
+      }
+    };
+    return beast;
+  }
 
 app.post('/save-roster', (req, res) => {
   const { playerId, beast } = req.body;
