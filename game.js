@@ -48,7 +48,7 @@ const config = {
   
   async function resolveEncounter(action) {
     const tileBiome = mapTiles.getChildren()[player.y * 10 + player.x].texture.key;
-    const response = await fetch(`https://beastbinders.herokuapp.com/generate-beast?biome=${tileBiome}`);
+    const response = await fetch(`https://beastbinders-7555f963f9c1.herokuapp.com/generate-beast?biome=${tileBiome}`);
     const beast = await response.json();
   
     if (action === 'fight') {
@@ -80,7 +80,7 @@ const config = {
   }
   
   function saveRoster(beast) {
-    fetch('https://beastbinders.herokuapp.com/save-roster', {
+    fetch('https://beastbinders-7555f963f9c1.herokuapp.com/save-roster', {
       method: 'POST',
       body: JSON.stringify({ playerId: 'player123', beast }),
       headers: { 'Content-Type': 'application/json' }
