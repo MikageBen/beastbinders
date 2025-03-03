@@ -29,8 +29,8 @@ const config = {
     this.add.rectangle(player.x * 64, player.y * 64, 32, 32, 0x00ff00);
   
     ui = {
-      fightBtn: this.add.text(650, 500, 'Fight', { color: '#fff' }).setInteractive(),
-      tameBtn: this.add.text(700, 500, 'Tame', { color: '#fff' }).setInteractive()
+      fightBtn: this.add.text(650, 500, 'Fight', { color: '#fff', backgroundColor: '#333', padding: 5 }).setInteractive(),
+      tameBtn: this.add.text(700, 500, 'Tame', { color: '#fff', backgroundColor: '#333', padding: 5 }).setInteractive()
     };
     ui.fightBtn.on('pointerdown', () => resolveEncounter('fight'));
     ui.tameBtn.on('pointerdown', () => resolveEncounter('tame'));
